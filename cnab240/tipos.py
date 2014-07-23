@@ -1,7 +1,10 @@
-# -*- encoding: utf8 -*-
+# encoding: utf8
+""" Cnab 240 classes.
+
+Everything related to reading/writing Cnab 240.
+"""
 
 import codecs
-import importlib
 
 from datetime import datetime
 from cnab240 import errors
