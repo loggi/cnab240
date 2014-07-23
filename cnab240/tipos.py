@@ -18,31 +18,31 @@ class Evento(object):
     """
 
     def __init__(self, banco, codigo_evento):
-        self._segmentos = []
+        self.segmentos = []
         self.banco = banco
         self.codigo_evento = codigo_evento
         self._codigo_lote = None
 
     def adicionar_segmento(self, segmento):
-        self._segmentos.append(segmento)
-        for segmento in self._segmentos:
-            segmento.servico_codigo_movimento = self.codigo_evento
+        """ Add the event type to the segment.
 
-    @property
-    def segmentos(self):
-        return self._segmentos
+        Assure that every segment added to the event holds the same
+        event type.
+        """
+        segmento.servico_codigo_movimento = self.codigo_evento
+        self.segmentos.append(segmento)
 
     def __getattribute__(self, name):
-        for segmento in object.__getattribute__(self, '_segmentos'):
+        for segmento in object.__getattribute__(self, 'segmentos'):
             if hasattr(segmento, name):
                 return getattr(segmento, name)
         return object.__getattribute__(self, name)
 
     def __unicode__(self):
-        return u'\r\n'.join(unicode(seg) for seg in self._segmentos)
+        return u'\r\n'.join(unicode(seg) for seg in self.segmentos)
 
     def __len__(self):
-        return len(self._segmentos)
+        return len(self.segmentos)
 
     @property
     def codigo_lote(self):
@@ -51,12 +51,12 @@ class Evento(object):
     @codigo_lote.setter
     def codigo_lote(self, valor):
         self._codigo_lote = valor
-        for segmento in self._segmentos:
+        for segmento in self.segmentos:
             segmento.controle_lote = valor
 
     def atualizar_codigo_registros(self, last_id):
         current_id = last_id
-        for segmento in self._segmentos:
+        for segmento in self.segmentos:
             current_id += 1
             segmento.servico_numero_registro = current_id
         return current_id
@@ -178,12 +178,12 @@ class Arquivo(object):
 
                     evento_aberto = Evento(self.banco, int(codigo_evento))
                     lote_aberto._eventos.append(evento_aberto)
-                    evento_aberto._segmentos.append(seg_t)
+                    evento_aberto.segmentos.append(seg_t)
 
                 elif tipo_segmento == 'U':
                     seg_u = self.banco.registros.SegmentoU()
                     seg_u.carregar(linha)
-                    evento_aberto._segmentos.append(seg_u)
+                    evento_aberto.segmentos.append(seg_u)
                     evento_aberto = None
 
             elif tipo_registro == '5':
