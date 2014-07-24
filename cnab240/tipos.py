@@ -33,6 +33,7 @@ class Evento(object):
         self.segmentos.append(segmento)
 
     def __getattribute__(self, name):
+        """ Make `segmentos` transparently available. """
         for segmento in object.__getattribute__(self, 'segmentos'):
             if hasattr(segmento, name):
                 return getattr(segmento, name)
