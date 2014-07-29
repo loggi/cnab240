@@ -257,6 +257,17 @@ class Arquivo(object):
     def escrever(self, file_):
         file_.write(unicode(self).encode('ascii'))
 
+    def dump(self):
+        """ Dump itself into a new file. """
+        filename = "{}_{}.rem".format(
+            self.header.cedente_inscricao_numero,
+            self.header.arquivo_sequencia
+        )
+
+        with file(filename, 'w') as dump:
+            self.escrever(dump)
+
+
     def __unicode__(self):
         if not self._lotes:
             raise errors.ArquivoVazioError()
