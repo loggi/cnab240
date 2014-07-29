@@ -1,7 +1,7 @@
 
-try:                                                                             
+try:
     import unittest2 as unittest
-except ImportError:                                                              
+except ImportError:
     import unittest
 
 import os
@@ -15,10 +15,10 @@ from tests.data import get_itau_data_from_dict, get_itau_file_remessa, \
 
 
 class TestCnab240(unittest.TestCase):
-    
+
     def __init__(self, *args, **kwargs):
         super(TestCnab240, self).__init__(*args, **kwargs)
-        self.maxDiff = None 
+        self.maxDiff = None
 
     def setUp(self):
         self.itau_data = get_itau_data_from_dict()
