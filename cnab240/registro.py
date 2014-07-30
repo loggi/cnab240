@@ -140,9 +140,12 @@ class RegistroBase(object):
             key.startswith('controle_'),
         ))
 
-        for key, value in data_dict.items():
-            if hasattr(self, key) and not ignore_fields(key):
-                setattr(self, key, value)
+        try:
+            for key, value in data_dict.items():
+                if hasattr(self, key) and not ignore_fields(key):
+                    setattr(self, key, value)
+        except:
+            print('Could not set {} = {}'.format(key, value))
 
     def carregar(self, registro_str):
         for campo in self._campos.values():
