@@ -5,6 +5,7 @@ Everything related to reading/writing Cnab 240.
 """
 
 import codecs
+import unicodedata
 
 from datetime import datetime
 from cnab240 import errors
@@ -255,7 +256,13 @@ class Arquivo(object):
         self.trailer.totais_quantidade_registros += len(lote)
 
     def escrever(self, file_):
-        file_.write(unicode(self).encode('ascii'))
+        value = unicode(self)
+
+        sanitized = unicodedata.normalize(
+            'NFKD', value
+        ).encode('ascii', 'ignore').decode('ascii')
+
+        file_.write(sanitized.encode('ascii'))
 
     def dump(self):
         """ Dump itself into a new file. """
