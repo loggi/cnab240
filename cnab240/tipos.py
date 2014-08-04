@@ -266,8 +266,8 @@ class Arquivo(object):
 
     def dump(self):
         """ Dump itself into a new file. """
-        filename = "{}_{}.rem".format(
-            self.header.cedente_inscricao_numero,
+        filename = "{}{}.rem".format(
+            self.header.arquivo_data_de_geracao,
             self.header.arquivo_sequencia
         )
 
