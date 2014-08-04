@@ -2,37 +2,41 @@
 
 class Cnab240Error(Exception):
     """Excessao base para o CNAB 240"""
+    pass
 
 
-class AtribuicaoCampoError(Cnab240Error): 
-    """Tentativa de atribuicao de valor indevido ao campo""" 
+class AtribuicaoCampoError(Cnab240Error):
+    """Tentativa de atribuicao de valor indevido ao campo"""
 
-    def __init__(self, campo, valor):
+    def __init__(self, campo, valor=None):
         self.campo = campo
         self.valor = valor
         super(AtribuicaoCampoError, self).__init__(self)
-        
-    def __unicode__(self):                
-        return u'campo:{0} formato:{1} decimais:{2} digitos:{3} - valor:{4}'.\
-            format( 
-                self.campo.nome,    
-                self.campo.formato, 
-                self.campo.decimais,
-                self.campo.digitos, 
-                repr(self.valor),
+
+    def __unicode__(self):
+        return '{}: {}{}'.format(
+            self.__class__.__name__,
+            self.campo, (
+                '-> {}'.format(self.valor)
+                if self.valor
+                else ''
             )
+        )
 
 
-class NumDigitosExcedidoError(AtribuicaoCampoError):                             
-    """Tentativa de atribuicao de valor mais longo que o campo suportaia"""      
-                                                                                 
+class NumDigitosExcedidoError(AtribuicaoCampoError):
+    """Tentativa de atribuicao de valor mais longo que o campo suportaia"""
+    pass
 
-class TipoError(AtribuicaoCampoError):                                           
+
+class TipoError(AtribuicaoCampoError):
     """Tentativa de atribuicao de tipo nao suportado pelo campo"""
+    pass
 
 
 class NumDecimaisError(AtribuicaoCampoError):
     """Numero de casasa decimais em desacordo com especificacao"""
+    pass
 
 
 class FaltandoArgsError(Cnab240Error):
@@ -49,13 +53,16 @@ class FaltandoArgsError(Cnab240Error):
 
 class ArquivoVazioError(Cnab240Error):
     """Tentativa de escrita de arquivo vazio."""
+    pass
 
 
 class NenhumEventoError(Cnab240Error):
     """Tentativa de escrita de lote sem eventos. """
+    pass
 
 
 class CampoObrigatorioError(Cnab240Error):
     """Campo obrigatorio nao preenchido."""
+    pass
 
 
