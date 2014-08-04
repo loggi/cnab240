@@ -25,26 +25,26 @@ class CampoBase(object):
     def valor(self, valor):
         if self.formato == 'alfa':
             if not isinstance(valor, unicode):
-                raise errors.TipoError(self, valor)
+                raise errors.TipoError(self.nome, valor)
             if len(valor) > self.digitos:
-                raise errors.NumDigitosExcedidoError(self, valor)
+                raise errors.NumDigitosExcedidoError(self.nome, valor)
 
         elif self.decimais:
             if not isinstance(valor, Decimal):
-                raise errors.TipoError(self, valor)
+                raise errors.TipoError(self.nome, valor)
 
             num_decimais = valor.as_tuple().exponent * -1
             if num_decimais != self.decimais:
-                raise errors.NumDecimaisError(self, valor)
+                raise errors.NumDecimaisError(self.nome, valor)
 
             if len(str(valor).replace('.', '')) > self.digitos:
-                raise errors.NumDigitosExcedidoError(self, valor)
+                raise errors.NumDigitosExcedidoError(self.nome, valor)
 
         else:
             if not isinstance(valor, (int, long)):
-                raise errors.TipoError(self, valor)
+                raise errors.TipoError(self.nome, valor)
             if len(str(valor)) > self.digitos:
-                raise errors.NumDigitosExcedidoError(self, valor)
+                raise errors.NumDigitosExcedidoError(self.nome, valor)
 
         self._valor = valor
 
@@ -162,7 +162,7 @@ class RegistroBase(object):
                 try:
                     campo.valor = int(valor)
                 except ValueError:
-                    raise errors.TipoError(campo, valor)
+                    raise errors.TipoError(campo.nome, valor)
             else:
                 campo.valor = valor
 
