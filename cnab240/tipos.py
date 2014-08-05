@@ -18,10 +18,12 @@ class Evento(object):
     All the work related to events (such as a bank slip) goes here.
     """
 
-    def __init__(self, banco, codigo_evento):
+    def __init__(self, banco, codigo_lote, controle_registro=1):
         self.segmentos = []
         self.banco = banco
-        self.codigo_evento = codigo_evento
+        self.controle_lote = codigo_lote
+        # constante, 1
+        self.controle_registro = 1
         self._codigo_lote = None
 
     def adicionar_segmento(self, segmento):
@@ -30,7 +32,8 @@ class Evento(object):
         Assure that every segment added to the event holds the same
         event type.
         """
-        segmento.servico_codigo_movimento = self.codigo_evento
+        # Codigo da ocorrência, Nota 4: remessa == 1
+        segmento.servico_codigo_movimento = 1
         self.segmentos.append(segmento)
 
     def __getattribute__(self, name):
@@ -178,7 +181,7 @@ class Arquivo(object):
                     seg_t = self.banco.registros.SegmentoT()
                     seg_t.carregar(linha)
 
-                    evento_aberto = Evento(self.banco, int(codigo_evento))
+                    evento_aberto = Evento(self.banco)
                     lote_aberto._eventos.append(evento_aberto)
                     evento_aberto.segmentos.append(seg_t)
 
@@ -203,7 +206,7 @@ class Arquivo(object):
         return self._lotes
 
     def incluir_cobranca(self, **kwargs):
-        evento = Evento(self.banco, codigo_evento)
+        evento = Evento(self.banco)
 
         seg_p = self.banco.registros.SegmentoP(**kwargs)
         evento.adicionar_segmento(seg_p)
