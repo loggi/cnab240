@@ -82,7 +82,7 @@ def parse(spec_f):
     default = spec.get('default')
 
     if dec:
-        default = int(default)
+        default = int(default or 0)
 
         spec['valor'] = Decimal(
             '{0:0.{1}f}'.format(
