@@ -52,18 +52,18 @@ class CampoBase(object):
     def __unicode__(self):
         """ Unicodefy field. """
 
-        if not self.valor and not self.default:
+        if not self.valor:
             raise errors.CampoObrigatorioError(self.nome)
 
-        if self.formato == 'alfa' or self.decimais:
+        if self.formato == 'num':
+            value = unicode(self.valor)
             if self.decimais:
-                valor = unicode(self.valor).replace('.', '')
-                chars_faltantes = self.digitos - len(valor)
-                return valor.zfill(chars_faltantes)
-            else:
-                chars_faltantes = self.digitos - len(self.valor)
-                return self.valor.ljust(chars_faltantes)
-        return u'{0:0{1}d}'.format(self.valor, self.digitos)
+                valor = value.replace('.', '')
+            return valor.zfill(self.digitos)
+        else:
+            chars_faltantes = self.digitos - len(self.valor)
+            return self.valor.ljust(chars_faltantes)
+
 
     def __repr__(self):
         return unicode(self)
