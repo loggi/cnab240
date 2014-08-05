@@ -51,7 +51,6 @@ class CampoBase(object):
 
     def __unicode__(self):
         """ Unicodefy field. """
-
         if self.valor is None:
             raise errors.CampoObrigatorioError(self.nome)
 
@@ -59,10 +58,10 @@ class CampoBase(object):
             valor = unicode(self.valor)
             if self.decimais:
                 valor = valor.replace('.', '')
-            return valor.zfill(self.digitos)
+            ret = valor.zfill(self.digitos)
         else:
-            chars_faltantes = self.digitos - len(self.valor)
-            return self.valor.ljust(chars_faltantes)
+            ret = self.valor.ljust(self.digitos)
+        assert len(ret) == self.digits, "Sizes must match"
 
 
     def __repr__(self):
