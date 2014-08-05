@@ -62,7 +62,7 @@ class CampoBase(object):
         else:
             ret = self.valor.ljust(self.digitos)
         assert len(ret) == self.digitos, "Sizes must match"
-
+        return ret
 
     def __repr__(self):
         return unicode(self)
