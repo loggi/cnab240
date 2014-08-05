@@ -56,9 +56,9 @@ class CampoBase(object):
             raise errors.CampoObrigatorioError(self.nome)
 
         if self.formato == 'num':
-            value = unicode(self.valor)
+            valor = unicode(self.valor)
             if self.decimais:
-                valor = value.replace('.', '')
+                valor = valor.replace('.', '')
             return valor.zfill(self.digitos)
         else:
             chars_faltantes = self.digitos - len(self.valor)
