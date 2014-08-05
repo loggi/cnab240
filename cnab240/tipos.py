@@ -18,10 +18,9 @@ class Evento(object):
     All the work related to events (such as a bank slip) goes here.
     """
 
-    def __init__(self, banco, codigo_lote, controle_registro=1):
+    def __init__(self, banco, controle_registro=1):
         self.segmentos = []
         self.banco = banco
-        self.controle_lote = codigo_lote
         # constante, 1
         self.controle_registro = 1
         self._codigo_lote = None
