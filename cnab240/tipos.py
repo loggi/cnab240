@@ -240,7 +240,7 @@ class Arquivo(object):
             raise TypeError('Objeto deve ser instancia de "Lote"')
 
         self._lotes.append(lote)
-        lote.codigo = len(self._lotes) + 1
+        lote.codigo = len(self._lotes)
 
         # Incrementar numero de lotes no trailer do arquivo
         self.trailer.totais_quantidade_lotes += 1
