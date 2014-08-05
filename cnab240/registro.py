@@ -122,8 +122,10 @@ class RegistroBase(object):
 
         for Campo in cls._campos_cls.values():
             campo = Campo()
-            campos.update({campo.nome: campo})
-            attrs.update({campo.nome: campo})
+            x = {campo.nome: campo}
+
+            campos.update(x)
+            attrs.update(x)
 
         new_cls = type(cls.__name__, (cls, ), attrs)
         return super(RegistroBase, cls).__new__(new_cls, **kwargs)
@@ -133,9 +135,11 @@ class RegistroBase(object):
 
     def necessario(self):
         for campo in self._campos.values():
-            eh_controle = campo.nome.startswith('controle_') or \
-                                            campo.nome.startswith('servico_')
-            if not eh_controle and campo.valor != None:
+            is_controle = (
+                campo.nome.startswith('controle_') or
+                campo.nome.startswith('servico_')
+            )
+            if not is_controle and campo.valor != None:
                 return True
 
         return False
@@ -212,4 +216,3 @@ class Registros(object):
             campos.update(entrada)
 
         return type(cls_name, (RegistroBase, ), attrs)
-
