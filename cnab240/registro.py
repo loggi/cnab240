@@ -52,7 +52,7 @@ class CampoBase(object):
     def __unicode__(self):
         """ Unicodefy field. """
 
-        if not self.valor:
+        if self.valor is None:
             raise errors.CampoObrigatorioError(self.nome)
 
         if self.formato == 'num':
