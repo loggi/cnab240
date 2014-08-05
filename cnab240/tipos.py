@@ -213,10 +213,6 @@ class Arquivo(object):
         seg_q = self.banco.registros.SegmentoQ(**kwargs)
         evento.adicionar_segmento(seg_q)
 
-        seg_r = self.banco.registros.SegmentoR(**kwargs)
-        if seg_r.necessario():
-            evento.adicionar_segmento(seg_r)
-
         header = self.banco.registros.HeaderLoteCobranca(**self.header.todict())
         trailer = self.banco.registros.TrailerLoteCobranca()
         lote_cobranca = Lote(self.banco, header, trailer)
