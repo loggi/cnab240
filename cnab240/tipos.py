@@ -103,7 +103,7 @@ class Lote(object):
             raise TypeError
 
         self._eventos.append(evento)
-        self.trailer.quantidade_registros += len(evento)
+        self.trailer.cobrancasimples_quantidade_titulos += len(evento)
         self.atualizar_codigo_registros()
 
         if self._codigo:
