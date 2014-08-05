@@ -203,8 +203,6 @@ class Arquivo(object):
         return self._lotes
 
     def incluir_cobranca(self, **kwargs):
-        # 1 eh o codigo de cobranca
-        codigo_evento = 1
         evento = Evento(self.banco, codigo_evento)
 
         seg_p = self.banco.registros.SegmentoP(**kwargs)
@@ -217,21 +215,18 @@ class Arquivo(object):
         if seg_r.necessario():
             evento.adicionar_segmento(seg_r)
 
-        lote_cobranca = self.encontrar_lote(codigo_evento)
+        header = self.banco.registros.HeaderLoteCobranca(**self.header.todict())
+        trailer = self.banco.registros.TrailerLoteCobranca()
+        lote_cobranca = Lote(self.banco, header, trailer)
+        self.adicionar_lote(lote_cobranca)
 
-        if lote_cobranca is None:
-            header = self.banco.registros.HeaderLoteCobranca(**self.header.todict())
-            trailer = self.banco.registros.TrailerLoteCobranca()
-            lote_cobranca = Lote(self.banco, header, trailer)
-            self.adicionar_lote(lote_cobranca)
+        if header.controlecob_numero is None:
+            header.controlecob_numero = int('{0}{1:02}'.format(
+                self.header.arquivo_sequencia,
+                lote_cobranca.codigo))
 
-            if header.controlecob_numero is None:
-                header.controlecob_numero = int('{0}{1:02}'.format(
-                    self.header.arquivo_sequencia,
-                    lote_cobranca.codigo))
-
-            if header.controlecob_data_gravacao is None:
-                header.controlecob_data_gravacao = self.header.arquivo_data_de_geracao
+        if header.controlecob_data_gravacao is None:
+            header.controlecob_data_gravacao = self.header.arquivo_data_de_geracao
 
         lote_cobranca.adicionar_evento(evento)
         # Incrementar numero de registros no trailer do arquivo
@@ -247,13 +242,10 @@ class Arquivo(object):
             raise TypeError('Objeto deve ser instancia de "Lote"')
 
         self._lotes.append(lote)
-        lote.codigo = len(self._lotes)
+        lote.codigo = len(self._lotes) + 1
 
         # Incrementar numero de lotes no trailer do arquivo
         self.trailer.totais_quantidade_lotes += 1
-
-        # Incrementar numero de registros no trailer do arquivo
-        self.trailer.totais_quantidade_registros += len(lote)
 
     def escrever(self, file_):
         value = unicode(self)
