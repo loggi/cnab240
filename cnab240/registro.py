@@ -61,7 +61,7 @@ class CampoBase(object):
             ret = valor.zfill(self.digitos)
         else:
             ret = self.valor.ljust(self.digitos)
-        assert len(ret) == self.digits, "Sizes must match"
+        assert len(ret) == self.digitos, "Sizes must match"
 
 
     def __repr__(self):
