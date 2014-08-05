@@ -82,8 +82,12 @@ def parse(spec_f):
     default = spec.get('default')
 
     if dec:
+        default = int(default)
+
         spec['valor'] = Decimal(
-            '{0:0.{1}f}'.format(default, dec)
+            '{0:0.{1}f}'.format(
+                default, dec
+            )
         )
     else:
         spec['valor'] = default
