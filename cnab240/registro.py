@@ -50,25 +50,19 @@ class CampoBase(object):
 
 
     def __unicode__(self):
-        if self.valor is None:
-            if self.default is not None:
-                if self.decimais:
-                    self.valor = Decimal('{0:0.{1}f}'.format(self.default,
-                                                                self.decimais))
-                else:
-                    self.valor = self.default
-            else:
-                raise errors.CampoObrigatorioError(self.nome)
+        """ Unicodefy field. """
+
+        if not self.valor and not self.default:
+            raise errors.CampoObrigatorioError(self.nome)
 
         if self.formato == 'alfa' or self.decimais:
             if self.decimais:
                 valor = unicode(self.valor).replace('.', '')
                 chars_faltantes = self.digitos - len(valor)
-                return (u'0' * chars_faltantes) + valor
+                return valor.zfill(chars_faltantes)
             else:
                 chars_faltantes = self.digitos - len(self.valor)
-                return self.valor + (u' ' * chars_faltantes)
-
+                return self.valor.ljust(chars_faltantes)
         return u'{0:0{1}d}'.format(self.valor, self.digitos)
 
     def __repr__(self):
@@ -80,6 +74,21 @@ class CampoBase(object):
     def __get__(self, instance, owner):
         return self.valor
 
+
+def parse(spec_f):
+    """ Take all spec and set default value, type and stuff. """
+    spec = dict(**spec_f)  # never alter input unless you're sure about it.
+    dec = spec['decimais']
+    default = spec.get('default')
+
+    if dec:
+        spec['valor'] = Decimal(
+            '{0:0.{1}f}'.format(default, dec)
+        )
+    else:
+        spec['valor'] = default
+
+    return spec
 
 def criar_classe_campo(spec):
 
@@ -96,6 +105,8 @@ def criar_classe_campo(spec):
         'decimais': spec.get('decimais', 0),
         'default': spec.get('default'),
     }
+
+    attrs = parse(attrs)
 
     return type(nome.encode('utf8'), (CampoBase,), attrs)
 
