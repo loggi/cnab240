@@ -257,8 +257,8 @@ class Arquivo(object):
     def dump(self):
         """ Dump itself into a new file. """
         filename = "{}{}.rem".format(
-            self.header.arquivo_data_de_geracao,
-            self.header.arquivo_sequencia
+            unicode(self.header.arquivo_data_de_geracao)[:4],
+            unicode(self.header.arquivo_sequencia)
         )
 
         with file(filename, 'w') as dump:
