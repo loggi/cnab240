@@ -73,7 +73,7 @@ class Lote(object):
         self.header = header
         self.trailer = trailer
         self._codigo = None
-        self.trailer.quantidade_registros = 0
+        self.trailer.quantidade_registros = 2
         self._eventos = []
 
     @property
@@ -140,7 +140,7 @@ class Arquivo(object):
         self.header = self.banco.registros.HeaderArquivo(**kwargs)
         self.trailer = self.banco.registros.TrailerArquivo(**kwargs)
         self.trailer.totais_quantidade_lotes = 0
-        self.trailer.totais_quantidade_registros = 2
+        self.trailer.totais_quantidade_registros = 1
 
         if self.header.arquivo_data_de_geracao is None:
             now = datetime.now()
