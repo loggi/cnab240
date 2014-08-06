@@ -214,6 +214,8 @@ class Arquivo(object):
         evento.adicionar_segmento(seg_q)
 
         header = self.banco.registros.HeaderLoteCobranca(**self.header.todict())
+        header.fromdict(kwargs)
+
         trailer = self.banco.registros.TrailerLoteCobranca()
         lote_cobranca = Lote(self.banco, header, trailer)
         self.adicionar_lote(lote_cobranca)
