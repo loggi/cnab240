@@ -73,7 +73,7 @@ class Lote(object):
         self.header = header
         self.trailer = trailer
         self._codigo = None
-        self.trailer.quantidade_registros = 2
+        self.trailer.quantidade_registros = 0
         self._eventos = []
 
     @property
@@ -105,7 +105,8 @@ class Lote(object):
             raise TypeError
 
         self._eventos.append(evento)
-        self.trailer.cobrancasimples_quantidade_titulos += len(evento)
+        self.trailer.quantidade_registros += len(evento)
+        self.trailer.cobrancasimples_quantidade_titulos += 1
         self.atualizar_codigo_registros()
 
         if self._codigo:
@@ -230,7 +231,7 @@ class Arquivo(object):
 
         lote_cobranca.adicionar_evento(evento)
         # Incrementar numero de registros no trailer do arquivo
-        self.trailer.totais_quantidade_registros += len(evento)
+        self.trailer.totais_quantidade_registros += len(lote_cobranca)
 
     def encontrar_lote(self, codigo_servico):
         for lote in self.lotes:
