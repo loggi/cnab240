@@ -18,21 +18,19 @@ class Evento(object):
     All the work related to events (such as a bank slip) goes here.
     """
 
-    def __init__(self, banco, controle_registro=1):
+    def __init__(self, banco, codigo_evento=1):
         self.segmentos = []
         self.banco = banco
-        # constante, 1
-        self.controle_registro = 1
+        self.codigo_evento = codigo_evento
         self._codigo_lote = None
 
     def adicionar_segmento(self, segmento):
-        """ Add the event type to the segment.
+        """ Add the event type to the 'Segmento'.
 
-        Assure that every segment added to the event holds the same
+        Assure that every 'Segmento' added to the event holds the same
         event type.
         """
-        # Codigo da ocorrência, Nota 4: remessa == 1
-        segmento.servico_codigo_movimento = 1
+        segmento.servico_codigo_movimento = self.codigo_evento
         self.segmentos.append(segmento)
 
     def __getattribute__(self, name):
@@ -94,7 +92,7 @@ class Lote(object):
     def atualizar_codigo_registros(self):
         last_id = 0
         for evento in self._eventos:
-             last_id = evento.atualizar_codigo_registros(last_id)
+            last_id = evento.atualizar_codigo_registros(last_id)
 
     @property
     def eventos(self):
@@ -132,6 +130,7 @@ class Arquivo(object):
         """Arquivo Cnab240."""
 
         self._lotes = []
+        self._lote_q = {}
         self.banco = banco
         arquivo = kwargs.get('arquivo')
         if isinstance(arquivo, (file, codecs.StreamReaderWriter)):
@@ -206,7 +205,8 @@ class Arquivo(object):
         return self._lotes
 
     def incluir_cobranca(self, **kwargs):
-        evento = Evento(self.banco)
+        codigo_evento = kwargs.get('servico_codigo_movimento', 1)
+        evento = Evento(self.banco, codigo_evento)
 
         seg_p = self.banco.registros.SegmentoP(**kwargs)
         evento.adicionar_segmento(seg_p)
@@ -214,39 +214,43 @@ class Arquivo(object):
         seg_q = self.banco.registros.SegmentoQ(**kwargs)
         evento.adicionar_segmento(seg_q)
 
-        header = self.banco.registros.HeaderLoteCobranca(**self.header.todict())
-        header.fromdict(kwargs)
-
-        trailer = self.banco.registros.TrailerLoteCobranca()
-        lote_cobranca = Lote(self.banco, header, trailer)
-        self.adicionar_lote(lote_cobranca)
-
-        if header.controlecob_numero is None:
-            header.controlecob_numero = int('{0}{1:02}'.format(
-                self.header.arquivo_sequencia,
-                lote_cobranca.codigo))
-
-        if header.controlecob_data_gravacao is None:
-            header.controlecob_data_gravacao = self.header.arquivo_data_de_geracao
-
-        lote_cobranca.adicionar_evento(evento)
-        # Incrementar numero de registros no trailer do arquivo
-        self.trailer.totais_quantidade_registros += len(lote_cobranca)
+        self.adicionar_evento(evento, **kwargs)
 
     def encontrar_lote(self, codigo_servico):
         for lote in self.lotes:
             if lote.header.servico_servico == codigo_servico:
                 return lote
 
-    def adicionar_lote(self, lote):
-        if not isinstance(lote, Lote):
-            raise TypeError('Objeto deve ser instancia de "Lote"')
+    def adicionar_evento(self, evento, **kwargs):
+        lote = self._lote_q.get(evento.codigo_evento)
 
-        self._lotes.append(lote)
-        lote.codigo = len(self._lotes)
+        if not lote:
+            header = self.banco.registros.HeaderLoteCobranca(
+                **self.header.todict()
+            )
+            header.fromdict(kwargs)
+            header.servico_servico = evento.codigo_evento
+
+            trailer = self.banco.registros.TrailerLoteCobranca()
+            lote = Lote(self.banco, header, trailer)
+
+            lote.adicionar_evento(evento)
+            self._lotes.append(lote)
+            self._lote_q[evento.codigo_evento] = lote
+            lote.codigo = len(self._lotes)
+
+            if header.controlecob_numero is None:
+                header.controlecob_numero = int('{0}{1:02}'.format(
+                    self.header.arquivo_sequencia,
+                    lote.codigo))
+
+            if header.controlecob_data_gravacao is None:
+                header.controlecob_data_gravacao = \
+                    self.header.arquivo_data_de_geracao
 
         # Incrementar numero de lotes no trailer do arquivo
         self.trailer.totais_quantidade_lotes += 1
+        self.trailer.totais_quantidade_registros += len(lote)
 
     def escrever(self, file_):
         value = unicode(self)
