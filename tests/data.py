@@ -82,30 +82,35 @@ def get_itau_data_from_dict():
         'cedente_conta': 17600,
         'cedente_agencia_conta_dv': 6,
         'carteira_numero': 109,
-        'nosso_numero': 99999999,
-        'nosso_numero_dv': 9,
-        'numero_documento': u'9999999999',
-        'vencimento_titulo': 30072012,
+        'nosso_numero': 90000000,
+        'nosso_numero_dv': 2,
+        'numero_documento': u'9999999998',
+        'vencimento_titulo': 30062012,
         'valor_titulo': Decimal('100.00'),
         'especie_titulo': 8,
         'aceite_titulo': u'A',
         'data_emissao_titulo': 27062012,
+        'data_credito': 27062012,
         'juros_mora_taxa_dia': Decimal('2.00'),
         'valor_abatimento': Decimal('0.00'),
-        'identificacao_titulo': u'BOLETO DE TESTE',
+        'identificacao_titulo': u'',
         'codigo_protesto': 3,
         'prazo_protesto': 0,
         'codigo_baixa': 0,
         'prazo_baixa': 0,
         'sacado_inscricao_tipo': 1,
-        'sacado_inscricao_numero': 83351622120,
-        'sacado_nome': u'JESUS DO CEU',
-        'sacado_endereco': u'RUA AVENIDA DO CEU, 666',
-        'sacado_bairro': u'JD PARAISO',
-        'sacado_cep': 60606,
-        'sacado_cep_sufixo': 666,
-        'sacado_cidade': u'PARAISO DE DEUS',
+        'sacado_inscricao_numero': 36644661874,
+        'sacado_nome': u'DAVI OLIVEIRA CAMPOS',
+        'sacado_endereco': u'RUA ARLINDO CATELLI 735 AP 12',
+        'sacado_bairro': u'JD PALMARES',
+        'sacado_cep': 14092,
+        'sacado_cep_sufixo': 530,
+        'sacado_cidade': u'RIBEIRAO PRETO',
         'sacado_uf': u'SP',
+        'sacador_inscricao_tipo': 2,
+        'sacador_inscricao_numero': 15594050000111,
+        'sacador_nome': u'TRACY TECNOLOGIA LTDA ME',
+
     }
 
     itau_data['arquivo'] = dict_arquivo
@@ -114,8 +119,8 @@ def get_itau_data_from_dict():
     return itau_data
 
 def get_itau_file_remessa():
-    arquivo_remessa = codecs.open(os.path.join(ARQS_DIRPATH,
-                                    'cobranca_dict.itau.rem'), encoding='ascii')
+    arquivo_remessa = codecs.open(
+        os.path.join(ARQS_DIRPATH, 'cnab.rem'), encoding='ascii')
     arquivo_data = arquivo_remessa.read()
     arquivo_remessa.close()
     return arquivo_data
