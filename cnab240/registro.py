@@ -73,23 +73,29 @@ class CampoBase(object):
     def __get__(self, instance, owner):
         return self.valor
 
+    def __iadd__(self, value):
+        tvalue = self._valor + value
+        self.valor = tvalue
 
 def parse(spec_f):
     """ Take all spec and set default value, type and stuff. """
     spec = dict(**spec_f)  # never alter input unless you're sure about it.
     dec = spec['decimais']
+    fmt = spec['formato']
     default = spec.get('default')
 
-    if dec:
-        default = int(default or 0)
-
-        spec['valor'] = Decimal(
-            '{0:0.{1}f}'.format(
-                default, dec
+    if fmt == 'num':
+        set_val = int(default or 0)
+        if dec:
+            set_val = Decimal(
+                '{0:0.{1}f}'.format(
+                    set_val, dec
+                )
             )
-        )
     else:
-        spec['valor'] = default
+        set_val = unicode(default or '')
+
+    spec['_valor'] = set_val
 
     return spec
 
