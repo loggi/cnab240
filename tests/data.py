@@ -159,6 +159,23 @@ def get_itau_data_from_dict():
 
     return itau_data
 
+def get_nonascii_data():
+    """ We fixture for non-ascii tests.
+
+    We take the previous dict and replace the strings with
+    non-ascii chars (such as accents) and expect the return to be the same.
+    """
+    mod = get_itau_data_from_dict()
+    mod['cobranca']['sacado_cidade'] = u'RIBEIRÃO PRETO'
+    # Sorry, but I had to test with ç
+    mod['cobranca']['sacado_endereco'] = u'RUA ARLINDO ÇATELLI 735 AP 12'
+
+    mod['cobranca2']['sacado_cidade'] = u'RIBEIRÃO PRETO'
+    mod['cobranca2']['sacado_nome'] = u'SÉRGIO OLIVEIRA CAMPOS'
+    mod['cobranca2']['sacado_endereco'] = u'RUA MAESTRO JOAQUIM THOMÉ LEITE 713'
+
+    return mod
+
 def get_itau_file_remessa():
     arquivo_remessa = codecs.open(
         os.path.join(ARQS_DIRPATH, 'cnab.rem'), encoding='ascii')
