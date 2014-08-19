@@ -14,8 +14,6 @@ from cnab240 import errors
 
 
 class CampoBase(object):
-    def __init__(self):
-        self._valor = None
 
     @property
     def valor(self):
