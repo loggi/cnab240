@@ -242,12 +242,12 @@ class Arquivo(object):
             self._lote_q[evento.codigo_evento] = lote
             lote.codigo = len(self._lotes)
 
-            if header.controlecob_numero is None:
+            if not header.controlecob_numero:
                 header.controlecob_numero = int('{0}{1:02}'.format(
                     self.header.arquivo_sequencia,
                     lote.codigo))
 
-            if header.controlecob_data_gravacao is None:
+            if not header.controlecob_data_gravacao:
                 header.controlecob_data_gravacao = \
                     self.header.arquivo_data_de_geracao
             self.trailer.totais_quantidade_lotes += 1
