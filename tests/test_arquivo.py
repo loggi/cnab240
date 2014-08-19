@@ -42,10 +42,10 @@ class TestCnab240(unittest.TestCase):
 
     def test_leitura(self):
         return_file_path = os.path.join(ARQS_DIRPATH, 'cobranca.itau.ret')
-        ret_file = codecs.open(return_file_path, encoding='ascii')
-        arquivo = Arquivo(itau, arquivo=ret_file)
-        ret_file.seek(0)
-        self.assertEqual(ret_file.read(), unicode(arquivo))
+        with codecs.open(return_file_path, encoding='ascii') as ret_file:
+            arquivo = Arquivo(itau, arquivo=ret_file)
+            ret_file.seek(0)
+            self.assertEqual(ret_file.read(), unicode(arquivo))
 
 if __name__ == '__main__':
     unittest.main()
