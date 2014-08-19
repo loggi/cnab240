@@ -1,3 +1,9 @@
+# encoding: utf-8
+""" All fixture data for tests.
+
+Everything is conveniently contained with wrapper methods..
+Ok, not so convenient, but still, it's ok..
+"""
 
 import os
 import codecs
