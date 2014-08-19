@@ -248,9 +248,11 @@ class Arquivo(object):
             if header.controlecob_data_gravacao is None:
                 header.controlecob_data_gravacao = \
                     self.header.arquivo_data_de_geracao
+            self.trailer.totais_quantidade_lotes += 1
+        else:
+            lote.adicionar_evento(evento)
 
         # Incrementar numero de lotes no trailer do arquivo
-        self.trailer.totais_quantidade_lotes += 1
         self.trailer.totais_quantidade_registros += len(lote)
 
     def escrever(self, file_):
