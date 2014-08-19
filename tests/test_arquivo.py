@@ -6,12 +6,14 @@ except ImportError:
 
 import os
 import codecs
+from cStringIO import StringIO
 
 from cnab240 import errors
 from cnab240.bancos import itau
 from cnab240.tipos import Arquivo
 from tests.data import(
-    get_itau_data_from_dict, get_itau_file_remessa, ARQS_DIRPATH
+    get_itau_data_from_dict, get_itau_file_remessa, ARQS_DIRPATH,
+    get_nonascii_data
 )
 
 
@@ -36,6 +38,21 @@ class TestCnab240(unittest.TestCase):
                 ix, l, _itau[ix]
             )
 
+    def test_nonascii(self):
+        """ Test if we can handle nonascii chars. """
+        nonascii = get_nonascii_data()
+        self.arquivo.incluir_cobranca(**nonascii['cobranca'])
+        self.arquivo.incluir_cobranca(**nonascii['cobranca2'])
+
+        strio = StringIO()
+        self.arquivo.escrever(strio)
+        _file = strio.getvalue()
+        strio.close()
+        _itau = get_itau_file_remessa().splitlines()
+        for ix, l in enumerate(_file.splitlines()):
+            assert l == _itau[ix], u"Error on line {}\n{}\n{}".format(
+                ix, l, _itau[ix]
+            )
     def test_empty_data(self):
         arquivo = Arquivo(itau)
         self.assertRaises(errors.ArquivoVazioError, unicode, arquivo)
