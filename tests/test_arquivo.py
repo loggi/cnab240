@@ -38,6 +38,30 @@ class TestCnab240(unittest.TestCase):
                 ix, l, _itau[ix]
             )
 
+    def test_to_file_is_unicode(self):
+        """ We check that what we write is what we are testing.
+
+        Just to avoid regressions or being blind with bugs.
+        Also, UTF-8 sanitization happens on dumping to file,
+        so we have a special test below
+        """
+        self.arquivo.incluir_cobranca(**self.itau_data['cobranca'])
+        self.arquivo.incluir_cobranca(**self.itau_data['cobranca2'])
+
+        strio = StringIO()
+        self.arquivo.escrever(strio)
+
+        _file = strio.getvalue().splitlines()
+        _unicode = unicode(self.arquivo).splitlines()
+
+        strio.close()
+
+        for ix, l in enumerate(_file):
+            assert l == _unicode[ix], u"Error on line {}\n{}\n{}".format(
+                ix, l, _unicode[ix]
+            )
+
+
     def test_nonascii(self):
         """ Test if we can handle nonascii chars. """
         nonascii = get_nonascii_data()
@@ -51,7 +75,6 @@ class TestCnab240(unittest.TestCase):
         _itau = get_itau_file_remessa().splitlines()
 
         strio.close()
-
 
         for ix, l in enumerate(_file):
             assert l == _itau[ix], u"Error on line {}\n{}\n{}".format(
