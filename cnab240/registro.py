@@ -165,7 +165,7 @@ class RegistroBase(object):
         except:
             print('Could not set {} = {}'.format(key, value))
 
-    def carregar(self, registro_str):
+    def carregar(self, registro_str, linha=None):
         for campo in self._campos.values():
             valor = registro_str[campo.inicio:campo.fim].strip()
             if campo.decimais:
@@ -180,7 +180,7 @@ class RegistroBase(object):
                 try:
                     campo.valor = int(valor)
                 except ValueError:
-                    raise errors.TipoError(campo.nome, valor)
+                    raise errors.TipoError(campo.nome, valor, linha)
             else:
                 campo.valor = valor
 
