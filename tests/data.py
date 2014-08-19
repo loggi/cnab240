@@ -11,7 +11,7 @@ ARQS_DIRPATH = os.path.join(TESTS_DIRPATH, 'arquivos')
 def get_itau_data_from_file():
     itau_data = dict()
     arquivo_remessa = codecs.open(
-        os.path.join(ARQS_DIRPATH, 'cobranca.itau.rem'), encoding='ascii'
+        os.path.join(ARQS_DIRPATH, 'cnab.rem'), encoding='ascii'
     )
 
     itau_data['remessa'] = arquivo_remessa.read()
@@ -110,11 +110,46 @@ def get_itau_data_from_dict():
         'sacador_inscricao_tipo': 2,
         'sacador_inscricao_numero': 15594050000111,
         'sacador_nome': u'TRACY TECNOLOGIA LTDA ME',
+    }
 
+    dict_cobranca2 = {
+        'cedente_agencia': 4459,
+        'cedente_conta': 17600,
+        'cedente_agencia_conta_dv': 6,
+        'carteira_numero': 109,
+        'nosso_numero': 1,
+        'nosso_numero_dv': 9,
+        'numero_documento': u'9999999999',
+        'vencimento_titulo': 1072012,
+        'valor_titulo': Decimal('200.00'),
+        'especie_titulo': 8,
+        'aceite_titulo': u'A',
+        'data_emissao_titulo': 27062012,
+        'data_credito': 27062012,
+        'juros_mora_taxa_dia': Decimal('2.00'),
+        'valor_abatimento': Decimal('0.00'),
+        'identificacao_titulo': u'',
+        'codigo_protesto': 3,
+        'prazo_protesto': 0,
+        'codigo_baixa': 0,
+        'prazo_baixa': 0,
+        'sacado_inscricao_tipo': 1,
+        'sacado_inscricao_numero': 33155515880,
+        'sacado_nome': u'SERGIO OLIVEIRA CAMPOS',
+        'sacado_endereco': u'RUA MAESTRO JOAQUIM THOME LEITE 713',
+        'sacado_bairro': u'CASTELO BRANCO',
+        'sacado_cep': 14090,
+        'sacado_cep_sufixo': 610,
+        'sacado_cidade': u'RIBEIRAO PRETO',
+        'sacado_uf': u'SP',
+        'sacador_inscricao_tipo': 2,
+        'sacador_inscricao_numero': 15594050000111,
+        'sacador_nome': u'TRACY TECNOLOGIA LTDA ME',
     }
 
     itau_data['arquivo'] = dict_arquivo
     itau_data['cobranca'] = dict_cobranca
+    itau_data['cobranca2'] = dict_cobranca2
 
     return itau_data
 

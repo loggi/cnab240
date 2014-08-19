@@ -27,7 +27,8 @@ class TestCnab240(unittest.TestCase):
 
     def test_unicode(self):
         self.arquivo.incluir_cobranca(**self.itau_data['cobranca'])
-        self.arquivo.incluir_cobranca(**self.itau_data['cobranca'])
+        self.arquivo.incluir_cobranca(**self.itau_data['cobranca2'])
+
         _file = unicode(self.arquivo)
         _itau = get_itau_file_remessa().splitlines()
         for ix, l in enumerate(_file.splitlines()):
