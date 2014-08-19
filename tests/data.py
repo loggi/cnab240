@@ -7,6 +7,17 @@ from cnab240.tipos import Lote, Evento
 
 TESTS_DIRPATH = os.path.abspath(os.path.dirname(__file__))
 ARQS_DIRPATH = os.path.join(TESTS_DIRPATH, 'arquivos')
+DEFAULT_HEADER = {
+    'cedente_inscricao_tipo': 2,
+    'cedente_inscricao_numero': 15594050000111,
+    'cedente_agencia': 4459,
+    'cedente_conta': 17600,
+    'cedente_agencia_conta_dv': 6,
+    'cedente_nome': u"TRACY TECNOLOGIA LTDA ME",
+    'arquivo_data_de_geracao': 27062012,
+    'arquivo_hora_de_geracao': 112000,
+    'arquivo_sequencia': 900002
+}
 
 def get_itau_data_from_file():
     itau_data = dict()
@@ -65,17 +76,6 @@ def get_itau_data_from_file():
 
 def get_itau_data_from_dict():
     itau_data = dict()
-    dict_arquivo = {
-        'cedente_inscricao_tipo': 2,
-        'cedente_inscricao_numero': 15594050000111,
-        'cedente_agencia': 4459,
-        'cedente_conta': 17600,
-        'cedente_agencia_conta_dv': 6,
-        'cedente_nome': u"TRACY TECNOLOGIA LTDA ME",
-        'arquivo_data_de_geracao': 27062012,
-        'arquivo_hora_de_geracao': 112000,
-        'arquivo_sequencia': 900002
-    }
 
     dict_cobranca = {
         'cedente_agencia': 4459,
@@ -147,7 +147,7 @@ def get_itau_data_from_dict():
         'sacador_nome': u'TRACY TECNOLOGIA LTDA ME',
     }
 
-    itau_data['arquivo'] = dict_arquivo
+    itau_data['arquivo'] = DEFAULT_HEADER
     itau_data['cobranca'] = dict_cobranca
     itau_data['cobranca2'] = dict_cobranca2
 
