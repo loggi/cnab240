@@ -31,9 +31,10 @@ class TestCnab240(unittest.TestCase):
         self.arquivo.incluir_cobranca(**self.itau_data['cobranca'])
         self.arquivo.incluir_cobranca(**self.itau_data['cobranca2'])
 
-        _file = unicode(self.arquivo)
+        _file = unicode(self.arquivo).splitlines()
         _itau = get_itau_file_remessa().splitlines()
-        for ix, l in enumerate(_file.splitlines()):
+
+        for ix, l in enumerate(_file):
             assert l == _itau[ix], "Error on line {}\n{}\n{}".format(
                 ix, l, _itau[ix]
             )
@@ -61,7 +62,6 @@ class TestCnab240(unittest.TestCase):
                 ix, l, _unicode[ix]
             )
 
-
     def test_nonascii(self):
         """ Test if we can handle nonascii chars. """
         nonascii = get_nonascii_data()
@@ -75,6 +75,7 @@ class TestCnab240(unittest.TestCase):
         _itau = get_itau_file_remessa().splitlines()
 
         strio.close()
+
 
         for ix, l in enumerate(_file):
             assert l == _itau[ix], u"Error on line {}\n{}\n{}".format(
