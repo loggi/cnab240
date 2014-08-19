@@ -46,13 +46,18 @@ class TestCnab240(unittest.TestCase):
 
         strio = StringIO()
         self.arquivo.escrever(strio)
-        _file = strio.getvalue()
-        strio.close()
+
+        _file = strio.getvalue().splitlines()
         _itau = get_itau_file_remessa().splitlines()
-        for ix, l in enumerate(_file.splitlines()):
+
+        strio.close()
+
+
+        for ix, l in enumerate(_file):
             assert l == _itau[ix], u"Error on line {}\n{}\n{}".format(
                 ix, l, _itau[ix]
             )
+
     def test_empty_data(self):
         arquivo = Arquivo(itau)
         self.assertRaises(errors.ArquivoVazioError, unicode, arquivo)
