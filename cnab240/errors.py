@@ -62,6 +62,13 @@ class ArquivoVazioError(Cnab240Error):
     pass
 
 
+class ArquivoCheioError(Cnab240Error):
+
+    """ The file cannot have more than 178 rows. """
+
+    pass
+
+
 class NenhumEventoError(Cnab240Error):
     """Tentativa de escrita de lote sem eventos. """
     pass
