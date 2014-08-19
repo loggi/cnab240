@@ -23,10 +23,6 @@ class TestCnab240(unittest.TestCase):
 
     """ All tests related to file handling. """
 
-    def __init__(self, *args, **kwargs):
-        super(TestCnab240, self).__init__(*args, **kwargs)
-        self.maxDiff = None
-
     def setUp(self):
         self.itau_data = get_itau_data_from_dict()
         self.arquivo = Arquivo(itau, **self.itau_data['arquivo'])
