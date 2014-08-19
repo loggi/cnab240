@@ -1,3 +1,5 @@
+# encoding: utf-8
+""" Tests related to file dumping and stuff. """
 
 try:
     import unittest2 as unittest
@@ -18,6 +20,8 @@ from tests.data import(
 
 
 class TestCnab240(unittest.TestCase):
+
+    """ All tests related to file handling. """
 
     def __init__(self, *args, **kwargs):
         super(TestCnab240, self).__init__(*args, **kwargs)
@@ -75,7 +79,6 @@ class TestCnab240(unittest.TestCase):
         _itau = get_itau_file_remessa().splitlines()
 
         strio.close()
-
 
         for ix, l in enumerate(_file):
             assert l == _itau[ix], u"Error on line {}\n{}\n{}".format(
