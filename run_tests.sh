@@ -13,5 +13,5 @@ check() {
 if check $PY_VER; then
     python -m unittest discover
 else
-    python -m unit2 discover
+    unit2 discover
 fi
