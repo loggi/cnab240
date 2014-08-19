@@ -11,10 +11,5 @@ guard :shell do
     else
        n "Tests failing"
     end
-    if system("xenon -bB -mA -aA")
-       n "Complexity is good"
-    else
-       n "Bad codebase"
-    end
   end
 end
