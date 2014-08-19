@@ -138,15 +138,11 @@ class RegistroBase(object):
         self.fromdict(kwargs)
 
     def necessario(self):
-        for campo in self._campos.values():
-            is_controle = (
-                campo.nome.startswith('controle_') or
-                campo.nome.startswith('servico_')
-            )
-            if not is_controle and campo.valor != None:
-                return True
+        """ Will be implemented back in the future.
 
-        return False
+        For now, since we don't check for seg_r, it's always True.
+        """
+        return True
 
     def todict(self):
         data_dict = dict()
