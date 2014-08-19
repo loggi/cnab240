@@ -90,18 +90,6 @@ class TestRegistro(unittest.TestCase):
                                                 u'TRACY TECNOLOGIA LTDA ME')
         self.assertEqual(header_arquivo.nome_do_banco, u'BANCO ITAU SA')
 
-    def test_necessario(self):
-        self.assertTrue(self.seg_p)
-
-        seg_p2 = itau.registros.SegmentoP()
-        self.assertFalse(seg_p2.necessario())
-
-        seg_p2.controle_banco = 33
-        self.assertFalse(seg_p2.necessario())
-
-        seg_p2.vencimento_titulo = 10102012
-        self.assertTrue(seg_p2.necessario())
-
     def test_unicode(self):
         def unicode_test(seg_instance, seg_str):
             seg_gen_str = unicode(seg_instance)
