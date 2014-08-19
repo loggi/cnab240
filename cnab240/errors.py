@@ -8,17 +8,23 @@ class Cnab240Error(Exception):
 class AtribuicaoCampoError(Cnab240Error):
     """Tentativa de atribuicao de valor indevido ao campo"""
 
-    def __init__(self, campo, valor=None):
+    def __init__(self, campo, valor=None, linha=None):
         self.campo = campo
         self.valor = valor
+        self.linha = linha
         super(AtribuicaoCampoError, self).__init__(self)
 
     def __unicode__(self):
-        return '{}: {}{}'.format(
+        return '{}: {}{}{}'.format(
             self.__class__.__name__,
             self.campo, (
                 '-> {}'.format(self.valor)
                 if self.valor
+                else ''
+            ),
+            (
+                ' na linha {}'.format(self.linha)
+                if self.linha
                 else ''
             )
         )
