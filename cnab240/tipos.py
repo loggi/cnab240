@@ -156,30 +156,29 @@ class Arquivo(object):
         lote_aberto = None
         evento_aberto = None
 
-        for linha in arquivo:
+        for ix, linha in enumerate(arquivo, 1):
             tipo_registro = linha[7]
 
             if tipo_registro == '0':
                 self.header = self.banco.registros.HeaderArquivo()
-                self.header.carregar(linha)
+                field = self.header
 
             elif tipo_registro == '1':
                 codigo_servico = linha[9:11]
 
                 if codigo_servico == '01':
                     header_lote = self.banco.registros.HeaderLoteCobranca()
-                    header_lote.carregar(linha)
+                    field = header_lote
                     trailer_lote = self.banco.registros.TrailerLoteCobranca()
                     lote_aberto = Lote(self.banco, header_lote, trailer_lote)
                     self._lotes.append(lote_aberto)
 
             elif tipo_registro == '3':
                 tipo_segmento = linha[13]
-                codigo_evento = linha[15:17]
 
                 if tipo_segmento == 'T':
                     seg_t = self.banco.registros.SegmentoT()
-                    seg_t.carregar(linha)
+                    field = seg_t
 
                     evento_aberto = Evento(self.banco)
                     lote_aberto._eventos.append(evento_aberto)
@@ -187,19 +186,22 @@ class Arquivo(object):
 
                 elif tipo_segmento == 'U':
                     seg_u = self.banco.registros.SegmentoU()
-                    seg_u.carregar(linha)
+                    field = seg_u
                     evento_aberto.segmentos.append(seg_u)
                     evento_aberto = None
 
             elif tipo_registro == '5':
                 if trailer_lote is not None:
-                    lote_aberto.trailer.carregar(linha)
+                    field = lote_aberto.trailer
                 else:
                     raise Exception
 
             elif tipo_registro == '9':
                 self.trailer = self.banco.registros.TrailerArquivo()
-                self.trailer.carregar(linha)
+                field = self.trailer
+
+            if field:
+                field.carregar(linha, ix)
 
     @property
     def lotes(self):
@@ -274,7 +276,6 @@ class Arquivo(object):
         with file(filename, 'w') as dump:
             self.escrever(dump)
 
-
     def __unicode__(self):
         if not self._lotes:
             raise errors.ArquivoVazioError()
@@ -286,4 +287,3 @@ class Arquivo(object):
         # Adicionar elemento vazio para arquivo terminar com \r\n
         result.append(u'')
         return u'\r\n'.join(result)
-
