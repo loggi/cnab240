@@ -81,6 +81,23 @@ class TestCnab240(unittest.TestCase):
                 ix, l, _itau[ix]
             )
 
+    def test_record_limit(self):
+        """ Check that we limit the file to 178 records."""
+        #self.assertEqual(
+        _add = self.arquivo.incluir_cobranca
+        data = self.itau_data['cobranca']
+
+        try:
+            for _ in xrange(87):
+                _add(**data)
+        except errors.ArquivoCheioError:
+            assert False, "Should fit."
+        else:
+            self.assertRaises(errors.ArquivoCheioError, _add, **data)
+
+
+
+
     def test_empty_data(self):
         arquivo = Arquivo(itau)
         self.assertRaises(errors.ArquivoVazioError, unicode, arquivo)
