@@ -151,6 +151,18 @@ class Arquivo(object):
                 now = datetime.now()
             self.header.arquivo_hora_de_geracao = int(now.strftime("%H%M%S"))
 
+    def __unicode__(self):
+        if not self._lotes:
+            raise errors.ArquivoVazioError()
+
+        result = []
+        result.append(unicode(self.header))
+        result.extend(unicode(lote) for lote in self._lotes)
+        result.append(unicode(self.trailer))
+        # Adicionar elemento vazio para arquivo terminar com \r\n
+        result.append(u'')
+        return u'\r\n'.join(result)
+
     def carregar_retorno(self, arquivo):
 
         lote_aberto = None
@@ -280,14 +292,4 @@ class Arquivo(object):
         with file(filename, 'w') as dump:
             self.escrever(dump)
 
-    def __unicode__(self):
-        if not self._lotes:
-            raise errors.ArquivoVazioError()
 
-        result = []
-        result.append(unicode(self.header))
-        result.extend(unicode(lote) for lote in self._lotes)
-        result.append(unicode(self.trailer))
-        # Adicionar elemento vazio para arquivo terminar com \r\n
-        result.append(u'')
-        return u'\r\n'.join(result)
