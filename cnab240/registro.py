@@ -75,6 +75,7 @@ class CampoBase(object):
         tvalue = self._valor + value
         self.valor = tvalue
 
+
 def parse(spec_f):
     """ Take all spec and set default value, type and stuff. """
     spec = dict(**spec_f)  # never alter input unless you're sure about it.
@@ -119,17 +120,23 @@ def criar_classe_campo(spec):
 
 
 class RegistroBase(object):
-
     def __new__(cls, **kwargs):
         campos = OrderedDict()
-        attrs = {'_campos': campos}
+
+        _c = ((None, None),)
+
 
         for Campo in cls._campos_cls.values():
             campo = Campo()
-            x = {campo.nome: campo}
+            x = ((campo.nome, campo), )
 
-            campos.update(x)
-            attrs.update(x)
+            _c += x
+
+        _c = _c[1:]
+        _a = _c + (('_campos', campos), )
+
+        campos.update(_c)
+        attrs = dict(_a)
 
         new_cls = type(cls.__name__, (cls, ), attrs)
         return super(RegistroBase, cls).__new__(new_cls, **kwargs)
@@ -152,14 +159,14 @@ class RegistroBase(object):
         return data_dict
 
     def fromdict(self, data_dict):
-        ignore_fields = lambda key: any((
-            key.startswith('vazio'),
-            key.startswith('servico_'),
-            key.startswith('controle_'),
-        ))
+        ignore_fields = lambda key: (
+            'vazio' in key or
+            'servico_' in key or
+            'controle_' in key
+        )
 
         try:
-            for key, value in data_dict.items():
+            for key, value in data_dict.iteritems():
                 if hasattr(self, key) and not ignore_fields(key):
                     setattr(self, key, value)
         except:
