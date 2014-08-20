@@ -273,6 +273,7 @@ class Arquivo(object):
                 header.controlecob_data_gravacao = \
                     self.header.arquivo_data_de_geracao
             self.trailer.totais_quantidade_lotes += 1
+            self.trailer.totais_quantidade_registros += 1
         else:
             lote.adicionar_evento(evento)
 
@@ -281,7 +282,7 @@ class Arquivo(object):
         if len(self) + size_evento > 178:
             raise errors.ArquivoCheioError()
 
-        self.trailer.totais_quantidade_registros = self.size_lotes()
+        self.trailer.totais_quantidade_registros += size_evento
 
     def escrever(self, file_):
         value = unicode(self)
