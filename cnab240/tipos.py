@@ -254,7 +254,11 @@ class Arquivo(object):
         else:
             lote.adicionar_evento(evento)
 
-        # Incrementar numero de lotes no trailer do arquivo
+        size_lote = len(lote)
+
+        if self.trailer.totais_quantidade_registros + size_lote > 178:
+            raise errors.ArquivoCheioError()
+
         self.trailer.totais_quantidade_registros += len(lote)
 
     def escrever(self, file_):
