@@ -125,7 +125,6 @@ class RegistroBase(object):
 
         _c = ((None, None),)
 
-
         for Campo in cls._campos_cls.values():
             campo = Campo()
             x = ((campo.nome, campo), )
@@ -202,12 +201,11 @@ class Registros(object):
         #   default (zeros se numerico ou brancos se alfa)
         registro_filepath_list = iglob(os.path.join(specs_dirpath, '*.json'))
 
+        _make_class = self.criar_classe_registro
         for registro_filepath in registro_filepath_list:
-            registro_file = open(registro_filepath)
-            spec = json.load(registro_file)
-            registro_file.close()
-
-            setattr(self, spec.get('nome'), self.criar_classe_registro(spec))
+            with open(registro_filepath) as registro_file:
+                spec = json.load(registro_file)
+                setattr(self, spec.get('nome'), _make_class(spec))
 
 
     def criar_classe_registro(self, spec):
@@ -216,10 +214,15 @@ class Registros(object):
         cls_name = spec.get('nome').encode('utf8')
 
         campo_specs = spec.get('campos', {})
+
+        _c = ((None, None),)
+
         for key in sorted(campo_specs.iterkeys()):
             Campo = criar_classe_campo(campo_specs[key])
-            entrada = {Campo.nome: Campo}
+            entrada = ((Campo.nome, Campo), )
 
-            campos.update(entrada)
+            _c += entrada
+
+        campos.update(_c[1:])
 
         return type(cls_name, (RegistroBase, ), attrs)
