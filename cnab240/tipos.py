@@ -241,11 +241,6 @@ class Arquivo(object):
 
         self.adicionar_evento(evento, **kwargs)
 
-    def encontrar_lote(self, codigo_servico):
-        for lote in self.lotes:
-            if lote.header.servico_servico == codigo_servico:
-                return lote
-
     def adicionar_evento(self, evento, **kwargs):
         lote = self._lote_q.get(evento.codigo_evento)
 
