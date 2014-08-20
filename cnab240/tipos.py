@@ -163,6 +163,10 @@ class Arquivo(object):
         result.append(u'')
         return u'\r\n'.join(result)
 
+    def __len__(self):
+        """ Return the len for the current set of records. """
+        return self.trailer.totais_quantidade_registros
+
     def carregar_retorno(self, arquivo):
 
         lote_aberto = None
@@ -219,6 +223,10 @@ class Arquivo(object):
     def lotes(self):
         return self._lotes
 
+    def size_lotes(self):
+        """ Return the size of all nested 'lote's. """
+        return sum([len(lote) for lote in self._lotes])
+
     def incluir_cobranca(self, **kwargs):
         codigo_evento = kwargs.get('servico_codigo_movimento', 1)
         evento = Evento(self.banco, codigo_evento)
@@ -266,12 +274,12 @@ class Arquivo(object):
         else:
             lote.adicionar_evento(evento)
 
-        size_lote = len(lote)
+        size_evento = len(evento)
 
-        if self.trailer.totais_quantidade_registros + size_lote > 178:
+        if len(self) + size_evento > 178:
             raise errors.ArquivoCheioError()
 
-        self.trailer.totais_quantidade_registros += len(lote)
+        self.trailer.totais_quantidade_registros = self.size_lotes()
 
     def escrever(self, file_):
         value = unicode(self)
