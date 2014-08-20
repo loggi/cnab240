@@ -96,8 +96,14 @@ class TestCnab240(unittest.TestCase):
         else:
             self.assertRaises(errors.ArquivoCheioError, _add, **data)
 
-
-
+    def test_assure_len(self):
+        """ Len of a record should be 2 and growth should be 2. """
+        self.assertEqual(len(self.arquivo), 0)
+        self.arquivo.incluir_cobranca(**self.itau_data['cobranca'])
+        # header + seg_p + seg_q
+        self.assertEqual(len(self.arquivo), 3)
+        self.arquivo.incluir_cobranca(**self.itau_data['cobranca'])
+        self.assertEqual(len(self.arquivo), 5)
 
     def test_empty_data(self):
         arquivo = Arquivo(itau)
