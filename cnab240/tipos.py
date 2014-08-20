@@ -73,6 +73,7 @@ class Lote(object):
         self._codigo = None
         # We take the header in here...
         self.trailer.quantidade_registros = 1
+        self.last_id = 0
         self._eventos = []
 
     @property
@@ -87,13 +88,14 @@ class Lote(object):
         self.atualizar_codigo_eventos()
 
     def atualizar_codigo_eventos(self):
-        for evento in self._eventos:
-            evento.codigo_lote = self._codigo
+        _add = self.atualizar_codigo_evento
+        [_add(evento) for evento in self._eventos]
 
-    def atualizar_codigo_registros(self):
-        last_id = 0
-        for evento in self._eventos:
-            last_id = evento.atualizar_codigo_registros(last_id)
+    def atualizar_codigo_evento(self, evento):
+        evento.codigo_lote = self._codigo
+
+    def atualizar_codigo_registro(self, evento):
+        self.last_id = evento.atualizar_codigo_registros(self.last_id)
 
     @property
     def eventos(self):
@@ -106,10 +108,10 @@ class Lote(object):
         self._eventos.append(evento)
         self.trailer.quantidade_registros += len(evento)
         self.trailer.cobrancasimples_quantidade_titulos += 1
-        self.atualizar_codigo_registros()
+        self.atualizar_codigo_registro(evento)
 
         if self._codigo:
-            self.atualizar_codigo_eventos()
+            self.atualizar_codigo_evento(evento)
 
     def __unicode__(self):
         if not self._eventos:
