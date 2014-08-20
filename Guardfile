@@ -5,7 +5,7 @@ notification(:libnotify, {
 
 
 guard :shell do
-  watch(/.*/) do |m|
+  watch(/.*\.py/) do |m|
     if system("./run_tests.sh")
        n "All tests ok"
     else
