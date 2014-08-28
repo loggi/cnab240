@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 from setuptools import setup, find_packages
+from cnab240 import __version__
 
 setup(
     name='cnab240',
-    version='1.0.0',
+    version=__version__,
     author='Loggi Tecnologia LTDA',
     author_email='dev@loggi.com',
     url='https://github.com/loggi/cnab240',
