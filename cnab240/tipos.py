@@ -239,7 +239,7 @@ class Arquivo(object):
         seg_q = self.banco.registros.SegmentoQ(**kwargs)
         evento.adicionar_segmento(seg_q)
 
-        self.adicionar_evento(evento, **kwargs)
+        return self.adicionar_evento(evento, **kwargs)
 
     def adicionar_evento(self, evento, **kwargs):
         lote = self._lote_q.get(evento.codigo_evento)
@@ -278,6 +278,9 @@ class Arquivo(object):
             raise errors.ArquivoCheioError()
 
         self.trailer.totais_quantidade_registros += size_evento
+
+        # Return seg_p row
+        return lote.last_id - 1
 
     def escrever(self, file_):
         value = unicode(self)
