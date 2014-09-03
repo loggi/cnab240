@@ -142,7 +142,8 @@ class Arquivo(object):
         self.header = self.banco.registros.HeaderArquivo(**kwargs)
         self.trailer = self.banco.registros.TrailerArquivo(**kwargs)
         self.trailer.totais_quantidade_lotes = 0
-        self.trailer.totais_quantidade_registros = 0
+        # Header + trailers
+        self.trailer.totais_quantidade_registros = 3
 
         if self.header.arquivo_data_de_geracao is None:
             now = datetime.now()
