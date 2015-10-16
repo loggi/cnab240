@@ -29,3 +29,6 @@ pip-log.txt
 .ropeproject
 .venv
 Gemfile.lock
+
+*.iml
+*.idea
