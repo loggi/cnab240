@@ -195,29 +195,23 @@ class RegistroBase(object):
 
 
 class Registros(object):
-    def __init__(self, specs_dirpath):
+    def __init__(self, specs_filepath_list):
         """Initialize reading specification in json format
 
         Args:
-            specs_dirpath (string): specifications dir path
+            specs_filepath_list list(string): specification files list
         """
-        # TODO: Validar spec: nome (deve ser unico para cada registro),
-        #   posicao_inicio, posicao_fim, formato (alpha), decimais (0),
-        #   default (zeros se numerico ou brancos se alfa)
-        registro_filepath_list = iglob(os.path.join(specs_dirpath, '*.json'))
-
         _make_class = self.criar_classe_registro
-        for registro_filepath in registro_filepath_list:
-            with open(registro_filepath) as registro_file:
-                spec = json.load(registro_file)
+        for spec_filepath in specs_filepath_list:
+            with open(spec_filepath) as file:
+                spec = json.load(file)
                 setattr(self, spec.get('nome'), _make_class(spec))
 
 
     def criar_classe_registro(self, spec):
         campos = OrderedDict()
-        attrs = {'_campos_cls': campos}
+        attrs = {'_campos_cls': campos, 'meta': spec.get('meta', {})}
         cls_name = spec.get('nome').encode('utf8')
-
         campo_specs = spec.get('campos', {})
 
         _c = ((None, None),)
@@ -225,7 +219,6 @@ class Registros(object):
         for key in sorted(campo_specs.iterkeys()):
             Campo = criar_classe_campo(campo_specs[key])
             entrada = ((Campo.nome, Campo), )
-
             _c += entrada
 
         campos.update(_c[1:])
