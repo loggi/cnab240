@@ -139,7 +139,7 @@ class Arquivo(object):
         if isinstance(arquivo, (file, codecs.StreamReaderWriter)):
             return self.carregar_retorno_cobranca(arquivo)
 
-        self.header = self.banco.registros.HeaderArquivo(**kwargs)
+        self.header = self.banco.registros.HeaderArquivoCobranca(**kwargs)
         self.trailer = self.banco.registros.TrailerArquivo(**kwargs)
         self.trailer.totais_quantidade_lotes = 0
         # Header + trailers
@@ -179,7 +179,7 @@ class Arquivo(object):
             tipo_registro = linha[7]
 
             if tipo_registro == '0':
-                self.header = self.banco.registros.HeaderArquivo()
+                self.header = self.banco.registros.HeaderArquivoCobranca()
                 field = self.header
 
             elif tipo_registro == '1':

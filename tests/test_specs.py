@@ -23,6 +23,7 @@ class TestSpecsHardRulesConformity(unittest.TestCase):
     def test_no_overlap_neither_holes_between_data(self):
         for b in self.get_bancos():
             for layout in self.layouts(b.registros):
+                print layout
                 # `inicio` is adjusted subtracting 1.
                 # see `registo#criar_classe_campo`
                 curr_end = 0

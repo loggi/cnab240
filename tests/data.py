@@ -34,7 +34,7 @@ def get_itau_data_from_file():
     itau_data['remessa'] = arquivo_remessa.read()
     arquivo_remessa.seek(0)
 
-    itau_data['header_arquivo_cobranca'] = itau.registros.HeaderArquivo()
+    itau_data['header_arquivo_cobranca'] = itau.registros.HeaderArquivoCobranca()
     itau_data['header_arquivo_cobranca_str'] = arquivo_remessa.readline().strip('\r\n')
     itau_data['header_arquivo_cobranca'].carregar(itau_data['header_arquivo_cobranca_str'])
 
