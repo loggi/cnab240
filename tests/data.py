@@ -34,9 +34,9 @@ def get_itau_data_from_file():
     itau_data['remessa'] = arquivo_remessa.read()
     arquivo_remessa.seek(0)
 
-    itau_data['header_arquivo'] = itau.registros.HeaderArquivo()
-    itau_data['header_arquivo_str'] = arquivo_remessa.readline().strip('\r\n')
-    itau_data['header_arquivo'].carregar(itau_data['header_arquivo_str'])
+    itau_data['header_arquivo_cobranca'] = itau.registros.HeaderArquivo()
+    itau_data['header_arquivo_cobranca_str'] = arquivo_remessa.readline().strip('\r\n')
+    itau_data['header_arquivo_cobranca'].carregar(itau_data['header_arquivo_cobranca_str'])
 
     itau_data['header_lote'] = itau.registros.HeaderLoteCobranca()
     itau_data['header_lote_str'] = arquivo_remessa.readline().strip('\r\n')

@@ -14,7 +14,7 @@ class TestRegistro(unittest.TestCase):
 
     def setUp(self):
         itau_data = get_itau_data_from_file()
-        self.header_arquivo = itau_data['header_arquivo']
+        self.header_arquivo_cobranca = itau_data['header_arquivo_cobranca']
         self.seg_p = itau_data['seg_p1']
         self.seg_p_str = itau_data['seg_p1_str']
         self.seg_q = itau_data['seg_q1']
@@ -47,48 +47,48 @@ class TestRegistro(unittest.TestCase):
         self.assertEqual(self.seg_p.valor_titulo, Decimal('2.13'))
 
     def test_leitura_campo_num_int(self):
-        self.assertEqual(self.header_arquivo.controle_banco, 341)
+        self.assertEqual(self.header_arquivo_cobranca.controle_banco, 341)
 
     def test_escrita_campo_num_int(self):
         # aceitar somente inteiros (int e long)
         with self.assertRaises(errors.TipoError):
-            self.header_arquivo.controle_banco = 10.0
+            self.header_arquivo_cobranca.controle_banco = 10.0
         with self.assertRaises(errors.TipoError):
-            self.header_arquivo.controle_banco = ''
+            self.header_arquivo_cobranca.controle_banco = ''
 
         # verifica se o numero de digitos esta sendo verificado
         with self.assertRaises(errors.NumDigitosExcedidoError):
-            self.header_arquivo.controle_banco = 12345678234567890234567890
+            self.header_arquivo_cobranca.controle_banco = 12345678234567890234567890
         with self.assertRaises(errors.NumDigitosExcedidoError):
-            self.header_arquivo.controle_banco = 1234
+            self.header_arquivo_cobranca.controle_banco = 1234
 
         # verifica valor armazenado
-        self.header_arquivo.controle_banco = 5
-        self.assertEqual(self.header_arquivo.controle_banco, 5)
+        self.header_arquivo_cobranca.controle_banco = 5
+        self.assertEqual(self.header_arquivo_cobranca.controle_banco, 5)
 
     def test_leitura_campo_alfa(self):
-        self.assertEqual(self.header_arquivo.cedente_nome,
+        self.assertEqual(self.header_arquivo_cobranca.cedente_nome,
                          u'TRACY TECNOLOGIA LTDA ME')
 
     def test_escrita_campo_alfa(self):
         # Testa que serao aceitos apenas unicode objects
         with self.assertRaises(errors.TipoError):
-            self.header_arquivo.cedente_nome = 'tracy'
+            self.header_arquivo_cobranca.cedente_nome = 'tracy'
 
         # Testa que strings mais longas que obj.digitos nao serao aceitas
         with self.assertRaises(errors.NumDigitosExcedidoError):
-            self.header_arquivo.cedente_convenio = u'123456789012345678901'
+            self.header_arquivo_cobranca.cedente_convenio = u'123456789012345678901'
 
         # Testa que o valor atribuido foi guardado no objeto
-        self.header_arquivo.cedente_nome = u'tracy'
-        self.assertEqual(self.header_arquivo.cedente_nome, 'tracy')
+        self.header_arquivo_cobranca.cedente_nome = u'tracy'
+        self.assertEqual(self.header_arquivo_cobranca.cedente_nome, 'tracy')
 
     def test_fromdict(self):
-        header_dict = self.header_arquivo.todict()
-        header_arquivo = itau.registros.HeaderArquivo(**header_dict)
-        self.assertEqual(header_arquivo.cedente_nome,
+        header_dict = self.header_arquivo_cobranca.todict()
+        header_arquivo_cobranca = itau.registros.HeaderArquivo(**header_dict)
+        self.assertEqual(header_arquivo_cobranca.cedente_nome,
                                                 u'TRACY TECNOLOGIA LTDA ME')
-        self.assertEqual(header_arquivo.nome_do_banco, u'BANCO ITAU SA')
+        self.assertEqual(header_arquivo_cobranca.nome_do_banco, u'BANCO ITAU SA')
 
     def test_unicode(self):
         def unicode_test(seg_instance, seg_str):

@@ -21,7 +21,7 @@ class TestLote(unittest.TestCase):
 
     def setUp(self):
         itau_data = get_itau_data_from_file()
-        self.header = itau_data['header_arquivo']
+        self.header = itau_data['header_arquivo_cobranca']
         self.header_lote = itau_data['header_lote']
         self.lote = itau_data['lote_cob']
         self.evento_1 = itau_data['evento_cob1']
