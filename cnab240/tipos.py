@@ -137,7 +137,7 @@ class Arquivo(object):
         self.banco = banco
         arquivo = kwargs.get('arquivo')
         if isinstance(arquivo, (file, codecs.StreamReaderWriter)):
-            return self.carregar_retorno(arquivo)
+            return self.carregar_retorno_cobranca(arquivo)
 
         self.header = self.banco.registros.HeaderArquivo(**kwargs)
         self.trailer = self.banco.registros.TrailerArquivo(**kwargs)
@@ -170,7 +170,7 @@ class Arquivo(object):
         """ Return the len for the current set of records. """
         return self.trailer.totais_quantidade_registros
 
-    def carregar_retorno(self, arquivo):
+    def carregar_retorno_cobranca(self, arquivo):
 
         lote_aberto = None
         evento_aberto = None
