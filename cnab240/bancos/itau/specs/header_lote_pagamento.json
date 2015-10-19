@@ -1,8 +1,8 @@
 {
-  "nome": "HeaderLoteCobranca",
+  "nome": "HeaderLotePagamento",
   "campos": {
     "01.1": {
-      "nome": "controle_banco",
+      "nome": "banco",
       "posicao_inicio": 1,
       "posicao_fim": 3,
       "formato": "num",
@@ -10,14 +10,14 @@
     },
 
     "02.1": {
-      "nome": "controle_lote",
+      "nome": "lote",
       "posicao_inicio": 4,
       "posicao_fim": 7,
       "formato": "num"
     },
 
     "03.1": {
-      "nome": "controle_registro",
+      "nome": "registro",
       "posicao_inicio": 8,
       "posicao_fim": 8,
       "formato": "num",
@@ -25,35 +25,33 @@
     },
 
     "04.1": {
-      "nome": "servico_operacao",
+      "nome": "tipo_operacao",
       "posicao_inicio": 9,
       "posicao_fim": 9,
       "formato": "alfa",
-      "default": "R"
+      "default": "C"
     },
 
     "05.1": {
-      "nome": "servico_servico",
+      "nome": "tipo_pagamento",
       "posicao_inicio": 10,
       "posicao_fim": 11,
-      "formato": "num",
-      "default": 1
+      "formato": "num"
     },
 
     "06.1": {
-      "nome": "vazio1",
+      "nome": "forma_pagamento",
       "posicao_inicio": 12,
       "posicao_fim": 13,
-      "formato": "num",
-      "default": 0
+      "formato": "num"
     },
 
     "07.1": {
-      "nome": "servico_layout",
+      "nome": "versao_layout",
       "posicao_inicio": 14,
       "posicao_fim": 16,
       "formato": "num",
-      "default": 30
+      "default": 40
     },
 
     "08.1": {
@@ -65,120 +63,148 @@
     },
 
     "09.1": {
-      "nome": "cedente_inscricao_tipo",
+      "nome": "debitado_inscricao_tipo",
       "posicao_inicio": 18,
       "posicao_fim": 18,
-      "formato": "num"
+      "formato": "num",
+      "default": "2"
     },
 
     "10.1": {
-      "nome": "cedente_inscricao_numero",
+      "nome": "debitado_inscricao_numero",
       "posicao_inicio": 19,
-      "posicao_fim": 33,
+      "posicao_fim": 32,
       "formato": "num"
     },
 
     "11.1": {
+      "nome": "identificacao_lcto",
+      "posicao_inicio": 33,
+      "posicao_fim": 36,
+      "formato": "alfa"
+    },
+
+    "12.1": {
       "nome": "vazio3",
-      "posicao_inicio": 34,
-      "posicao_fim": 53,
+      "posicao_inicio": 37,
+      "posicao_fim": 52,
       "formato": "alfa",
       "default": ""
     },
 
-    "12.1": {
-      "nome": "vazio4",
-      "posicao_inicio": 54,
-      "posicao_fim": 54,
-      "formato": "num",
-      "default": 0
-    },
-
     "13.1": {
-      "nome": "cedente_agencia",
-      "posicao_inicio": 55,
-      "posicao_fim": 58,
+      "nome": "debitado_num_agencia",
+      "posicao_inicio": 53,
+      "posicao_fim": 57,
       "formato": "num"
     },
 
     "14.1": {
-      "nome": "vazio5",
-      "posicao_inicio": 59,
-      "posicao_fim": 59,
+      "nome": "vazio4",
+      "posicao_inicio": 58,
+      "posicao_fim": 58,
       "formato": "alfa",
       "default": ""
     },
 
     "15.1": {
-      "nome": "vazio6",
-      "posicao_inicio": 60,
-      "posicao_fim": 66,
-      "formato": "num",
-      "default": 0
-    },
-
-    "16.1": {
-      "nome": "cedente_conta",
-      "posicao_inicio": 67,
-      "posicao_fim": 71,
+      "nome": "debitado_conta_corrente",
+      "posicao_inicio": 59,
+      "posicao_fim": 70,
       "formato": "num"
     },
 
-    "17.1": {
-      "nome": "vazio7",
-      "posicao_inicio": 72,
-      "posicao_fim": 72,
+    "16.1": {
+      "nome": "vazio5",
+      "posicao_inicio": 71,
+      "posicao_fim": 71,
       "formato": "alfa",
       "default": ""
     },
 
-    "18.1": {
-      "nome": "cedente_agencia_conta_dv",
-      "posicao_inicio": 73,
-      "posicao_fim": 73,
+    "17.1": {
+      "nome": "debitado_agencia_conta_dac",
+      "posicao_inicio": 72,
+      "posicao_fim": 72,
       "formato": "num"
     },
 
     "19.1": {
-      "nome": "cedente_nome",
-      "posicao_inicio": 74,
-      "posicao_fim": 103,
+      "nome": "debitado_nome",
+      "posicao_inicio": 73,
+      "posicao_fim": 102,
       "formato": "alfa"
     },
 
     "20.1": {
-      "nome": "vazio8",
-      "posicao_inicio": 104,
-      "posicao_fim": 183,
+      "nome": "finalidade_pagamentos",
+      "posicao_inicio": 103,
+      "posicao_fim": 132,
       "formato": "alfa",
       "default": ""
     },
 
     "21.1": {
-      "nome": "controlecob_numero",
-      "posicao_inicio": 184,
-      "posicao_fim": 191,
-      "formato": "num"
+      "nome": "debitado_complemento_historico",
+      "posicao_inicio": 133,
+      "posicao_fim": 142,
+      "formato": "alfa",
+      "default": ""
     },
 
     "22.1": {
-      "nome": "controlecob_data_gravacao",
-      "posicao_inicio": 192,
-      "posicao_fim": 199,
-      "formato": "num"
+      "nome": "debitado_endereco_logradouro",
+      "posicao_inicio": 143,
+      "posicao_fim": 172,
+      "formato": "alfa"
     },
 
     "23.1": {
-      "nome": "data_credito",
-      "posicao_inicio": 200,
-      "posicao_fim": 207,
-      "formato": "num",
-      "default": 0
+      "nome": "debitado_endereco_num",
+      "posicao_inicio": 173,
+      "posicao_fim": 177,
+      "formato": "num"
     },
 
     "24.1": {
+      "nome": "debitado_endereco_complemento",
+      "posicao_inicio": 178,
+      "posicao_fim": 192,
+      "formato": "alfa"
+    },
+
+    "25.1": {
+      "nome": "debitado_cidade",
+      "posicao_inicio": 193,
+      "posicao_fim": 212,
+      "formato": "alfa"
+    },
+
+    "26.1": {
+      "nome": "debitado_cep",
+      "posicao_inicio": 213,
+      "posicao_fim": 220,
+      "formato": "num"
+    },
+
+    "27.1": {
+      "nome": "debitado_estado",
+      "posicao_inicio": 221,
+      "posicao_fim": 222,
+      "formato": "alfa"
+    },
+
+    "28.1": {
       "nome": "vazio9",
-      "posicao_inicio": 208,
+      "posicao_inicio": 223,
+      "posicao_fim": 230,
+      "formato": "alfa",
+      "default": ""
+    },
+
+    "29.1": {
+      "nome": "ocorrencias",
+      "posicao_inicio": 231,
       "posicao_fim": 240,
       "formato": "alfa",
       "default": ""

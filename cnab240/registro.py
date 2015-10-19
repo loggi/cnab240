@@ -1,4 +1,4 @@
-
+# encoding: utf-8
 import os
 import json
 
@@ -196,6 +196,11 @@ class RegistroBase(object):
 
 class Registros(object):
     def __init__(self, specs_dirpath):
+        """Initialize reading specification in json format
+
+        Args:
+            specs_dirpath (string): specifications dir path
+        """
         # TODO: Validar spec: nome (deve ser unico para cada registro),
         #   posicao_inicio, posicao_fim, formato (alpha), decimais (0),
         #   default (zeros se numerico ou brancos se alfa)

@@ -1,4 +1,4 @@
-
+# encoding: utf-8
 from cnab240.tipos import EventoBase
 
 
