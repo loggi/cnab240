@@ -2,7 +2,7 @@
   "nome": "HeaderLotePagamento",
   "campos": {
     "01.1": {
-      "nome": "banco",
+      "nome": "controle_banco",
       "posicao_inicio": 1,
       "posicao_fim": 3,
       "formato": "num",
@@ -10,14 +10,14 @@
     },
 
     "02.1": {
-      "nome": "lote",
+      "nome": "controle_lote",
       "posicao_inicio": 4,
       "posicao_fim": 7,
       "formato": "num"
     },
 
     "03.1": {
-      "nome": "registro",
+      "nome": "controle_registro",
       "posicao_inicio": 8,
       "posicao_fim": 8,
       "formato": "num",
@@ -25,7 +25,7 @@
     },
 
     "04.1": {
-      "nome": "tipo_operacao",
+      "nome": "servico_tipo_operacao",
       "posicao_inicio": 9,
       "posicao_fim": 9,
       "formato": "alfa",
@@ -33,21 +33,21 @@
     },
 
     "05.1": {
-      "nome": "tipo_pagamento",
+      "nome": "servico_tipo_pagamento",
       "posicao_inicio": 10,
       "posicao_fim": 11,
       "formato": "num"
     },
 
     "06.1": {
-      "nome": "forma_pagamento",
+      "nome": "servico_forma_pagamento",
       "posicao_inicio": 12,
       "posicao_fim": 13,
       "formato": "num"
     },
 
     "07.1": {
-      "nome": "versao_layout",
+      "nome": "servico_layout",
       "posicao_inicio": 14,
       "posicao_fim": 16,
       "formato": "num",
