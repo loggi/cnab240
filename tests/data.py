@@ -62,7 +62,7 @@ def get_itau_data_from_file():
     itau_data['trailer_lote_str'] = arquivo_remessa.readline().strip('\r\n')
     itau_data['trailer_lote'].carregar(itau_data['trailer_lote_str'])
 
-    itau_data['trailer_arquivo'] = itau.registros.TrailerArquivo()
+    itau_data['trailer_arquivo'] = itau.registros.TrailerArquivoCobranca()
     itau_data['trailer_arquivo_str'] = arquivo_remessa.readline().strip('\r\n')
     itau_data['trailer_arquivo'].carregar(itau_data['trailer_arquivo_str'])
 

@@ -113,12 +113,21 @@ class TestCnab240(unittest.TestCase):
         arquivo = Arquivo(itau)
         self.assertRaises(errors.ArquivoVazioError, unicode, arquivo)
 
-    def test_leitura(self):
+    def test_leitura_cobranca(self):
         return_file_path = os.path.join(ARQS_DIRPATH, 'cobranca.itau.ret')
         with codecs.open(return_file_path, encoding='ascii') as ret_file:
             arquivo = Arquivo(itau, arquivo=ret_file)
             ret_file.seek(0)
             self.assertEqual(ret_file.read(), unicode(arquivo))
+
+
+    def test_geracao_pagamento(self):
+        # TODO seiti generate Arquivo with data
+        # TODO print content
+        # TODO validate content.
+        #arquivo = Arquivo(itau, arquivo=ret_file)
+        pass
+
 
 if __name__ == '__main__':
     unittest.main()

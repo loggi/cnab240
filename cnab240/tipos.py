@@ -140,10 +140,10 @@ class Arquivo(object):
             return self.carregar_retorno_cobranca(arquivo)
 
         self.header = self.banco.registros.HeaderArquivoCobranca(**kwargs)
-        self.trailer = self.banco.registros.TrailerArquivo(**kwargs)
-        self.trailer.totais_quantidade_lotes = 0
+        self.trailer = self.banco.registros.TrailerArquivoCobranca(**kwargs)
+        self.trailer.total_quantidade_lotes = 0
         # Header + trailers
-        self.trailer.totais_quantidade_registros = 3
+        self.trailer.totaL_quantidade_registros = 3
 
         if self.header.arquivo_data_de_geracao is None:
             now = datetime.now()
@@ -168,7 +168,7 @@ class Arquivo(object):
 
     def __len__(self):
         """ Return the len for the current set of records. """
-        return self.trailer.totais_quantidade_registros
+        return self.trailer.totaL_quantidade_registros
 
     def carregar_retorno_cobranca(self, arquivo):
 
@@ -216,7 +216,7 @@ class Arquivo(object):
                     raise Exception
 
             elif tipo_registro == '9':
-                self.trailer = self.banco.registros.TrailerArquivo()
+                self.trailer = self.banco.registros.TrailerArquivoCobranca()
                 field = self.trailer
 
             if field:
@@ -268,8 +268,8 @@ class Arquivo(object):
             if not header.controlecob_data_gravacao:
                 header.controlecob_data_gravacao = \
                     self.header.arquivo_data_de_geracao
-            self.trailer.totais_quantidade_lotes += 1
-            self.trailer.totais_quantidade_registros += 1
+            self.trailer.total_quantidade_lotes += 1
+            self.trailer.totaL_quantidade_registros += 1
         else:
             lote.adicionar_evento(evento)
 
@@ -278,7 +278,7 @@ class Arquivo(object):
         if len(self) + size_evento > 178:
             raise errors.ArquivoCheioError()
 
-        self.trailer.totais_quantidade_registros += size_evento
+        self.trailer.totaL_quantidade_registros += size_evento
 
         # Return seg_p row
         return lote.last_id - 1
