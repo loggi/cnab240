@@ -125,7 +125,7 @@ class TestCnab240(unittest.TestCase):
         # TODO seiti generate Arquivo with data
         # TODO print content
         # TODO validate content.
-        #arquivo = Arquivo(itau, arquivo=ret_file)
+        # arquivo = Arquivo(itau, arquivo=ret_file)
         pass
 
 
