@@ -5,9 +5,9 @@ python:
   - "pypy"
 #  - "3.2": Not supported yet
 install: 
-  - "pip install unittest2 --use-mirrors"
-  - "pip install ordereddict --use-mirrors || echo \"It's ok...\"" 
-  - "pip install importlib --use-mirrors || echo \"It's ok...\"" 
+  - "pip install unittest2"
+  - "pip install ordereddict || echo \"It's ok...\"" 
+  - "pip install importlib || echo \"It's ok...\"" 
 script: ./run_tests.sh
 notifications:
   irc:
