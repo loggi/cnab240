@@ -14,7 +14,7 @@ def measure(func):
         ret = prof.runcall(func, *args, **kwargs)
         prof.disable()
         ps = pstats.Stats(prof).sort_stats('cumulative')
-        print func.func_name
+        print(func.func_name)
         ps.print_stats(20)
         return ret
 

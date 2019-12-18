@@ -20,7 +20,7 @@ setup(
     license='LGPL',
     description='Classe para gerar arquivo de remessa e leitura de retorno no '
                                                             'padrão CNAB240',
-    long_description=open('README.md', 'r').read(),
+    long_description=open('./README.md', 'r').read(),
     download_url='https://github.com/loggi/cnab240',
     scripts=[],
     classifiers=[],
